@@ -66,14 +66,6 @@ if (isset($_POST['update_status']) && isset($_POST['reservation_id']) && isset($
             </div>
         </div>
 
-        <div class="welcome-section">
-            <img src="../img/administrador.avif" alt="Team" class="welcome-img">
-            <div class="welcome-text">
-                <h1>RESERVAS DEL RESTAURANTE</h1>
-                <p>Gestiona todas las reservas y pedidos de manera eficiente. Mantén un control detallado de cada solicitud de los clientes.</p>
-            </div>
-        </div>
-
         <?php
         // Check if user is a manager or admin
         if ($_SESSION['user_role'] === 'manager' || $_SESSION['user_role'] === 'admin') {

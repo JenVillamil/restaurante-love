@@ -156,7 +156,7 @@ try {
         <div class="container">
             <div class="logo">
                 <a href="pagIni.php">
-                    <img src="img/logo restaurante.png" alt="Restaurante Logo" class="logo-img">
+                    <img src="../img/logo restaurante.png" alt="Restaurante Logo" class="logo-img">
                 </a>
             </div>
             <div style="display: flex; align-items: center;">
