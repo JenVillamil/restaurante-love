@@ -189,12 +189,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
 
-        <form class="p-4 border rounded shadow" action="#" method="post">
+        <form class="p-4 border rounded shadow" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="tipo-doc" class="form-label">Tipo de Documento</label>
-                    <select class="form-select" id="tipo-doc" required>
+                    <select class="form-select" id="tipo-doc" name="tipo-doc" required>
                         <option value="">Selecciona...</option>
                         <option value="CC">Cédula de Ciudadanía</option>
                         <option value="CE">Cédula de Extranjería</option>
@@ -204,23 +204,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="col-md-6">
                     <label for="num-doc" class="form-label">Número de Documento</label>
-                    <input type="text" class="form-control" id="num-doc" required>
+                    <input type="text" class="form-control" id="num-doc" name="num-doc" required>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="nombre" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="celular" class="form-label">Número de Celular</label>
-                    <input type="tel" class="form-control" id="celular" required>
+                    <input type="tel" class="form-control" id="celular" name="celular" required>
                 </div>
                 <div class="col-md-6">
                     <label for="correo" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="correo" required>
+                    <input type="email" class="form-control" id="correo" name="correo" required>
                 </div>
             </div>
 
@@ -265,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="mesa" class="form-label">Número de Mesa</label>
-                    <input type="number" class="form-control" id="mesa" min="1" required>
+                    <input type="number" class="form-control" id="mesa" name="mesa" min="1" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label d-block">Tipo de Servicio</label>
