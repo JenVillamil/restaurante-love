@@ -1,7 +1,7 @@
 <?php
 // Database configuration
 $host = 'localhost';
-$dbname = 'restaurant_love';
+$dbname = 'restaurante_love';
 $username = 'root';
 $password = '';
 
