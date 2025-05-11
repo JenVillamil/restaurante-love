@@ -97,6 +97,80 @@ $user_role = $_SESSION['user_role'];
         <footer>
             <p>Copyright © 2025. All rights reserved.</p>
         </footer>
+
+        <?php
+        // Check if user is a manager or admin
+        if ($_SESSION['user_role'] === 'manager' || $_SESSION['user_role'] === 'admin') {
+            // Fetch reservations
+            try {
+                $stmt = $conn->query("SELECT * FROM reservations ORDER BY created_at DESC");
+                $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch(PDOException $e) {
+                echo "Error: " . $e->getMessage();
+                $reservations = [];
+            }
+        ?>
+
+        <div class="section-separator text-center mb-3">
+            <span>Reservas y Pedidos del Restaurante</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Contacto</th>
+                        <th>Menú</th>
+                        <th>Mesa</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (count($reservations) > 0): ?>
+                        <?php foreach ($reservations as $reservation): ?>
+                        <tr>
+                            <td><?php echo $reservation['id']; ?></td>
+                            <td><?php echo htmlspecialchars($reservation['full_name']); ?></td>
+                            <td>
+                                <small><?php echo htmlspecialchars($reservation['phone']); ?></small><br>
+                                <small><?php echo htmlspecialchars($reservation['email']); ?></small>
+                            </td>
+                            <td><?php echo htmlspecialchars($reservation['menu_item']); ?></td>
+                            <td><?php echo $reservation['table_number']; ?></td>
+                            <td><?php echo ($reservation['service_type'] == 'restaurante') ? 'En local' : 'Para llevar'; ?></td>
+                            <td>
+                                <?php 
+                                $status_class = '';
+                                switch($reservation['status']) {
+                                    case 'pendiente': $status_class = 'bg-warning'; break;
+                                    case 'en_proceso': $status_class = 'bg-primary'; break;
+                                    case 'completado': $status_class = 'bg-success'; break;
+                                }
+                                ?>
+                                <span class="badge <?php echo $status_class; ?>"><?php echo ucfirst($reservation['status']); ?></span>
+                            </td>
+                            <td><?php echo date('d/m/Y H:i', strtotime($reservation['created_at'])); ?></td>
+                            <td>
+                                <a href="update_reservation.php?id=<?php echo $reservation['id']; ?>&status=en_proceso" class="btn btn-sm btn-primary">Procesar</a>
+                                <a href="update_reservation.php?id=<?php echo $reservation['id']; ?>&status=completado" class="btn btn-sm btn-success">Completar</a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="9" class="text-center">No hay reservas disponibles</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php } // End of manager/admin check ?>
     </div>
 </body>
 </html>
