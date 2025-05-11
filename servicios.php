@@ -1,12 +1,5 @@
 <?php
-// Depuración detallada
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
-
-// Mensajes para debugging
-$debug_info = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once 'includes/connection.php';
@@ -20,15 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $menu_item = $_POST['menu'];
     $service_type = $_POST['servicio'];
     
-    // Lógica modificada para tabla
     if ($service_type === 'para-llevar') {
-        // Para pedidos para llevar, usa explícitamente NULL
-        $table_number = null;
-        $debug_info[] = "Modo para llevar: table_number = NULL";
+        // Para pedidos para llevar, usar 0 en lugar de NULL
+        $table_number = 0; // Valor especial que indica "para llevar"
     } else {
         // Para restaurante, toma el valor ingresado
-        $table_number = !empty($_POST['mesa']) ? (int)$_POST['mesa'] : null;
-        $debug_info[] = "Modo restaurante: table_number = $table_number";
+        $table_number = !empty($_POST['mesa']) ? (int)$_POST['mesa'] : 1; // Valor predeterminado 1
     }
     
     try {
@@ -50,10 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Para el campo table_number, usar PARAM_NULL si es null
         if ($table_number === null) {
             $stmt->bindValue(7, null, PDO::PARAM_NULL);
-            $debug_info[] = "Binding table_number como NULL";
         } else {
             $stmt->bindParam(7, $table_number, PDO::PARAM_INT);
-            $debug_info[] = "Binding table_number como INT: $table_number";
         }
         
         $stmt->bindParam(8, $service_type, PDO::PARAM_STR);
@@ -63,15 +51,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($result) {
             $success_message = "¡Reserva realizada con éxito!";
-            $debug_info[] = "Reserva insertada correctamente";
         } else {
             $error_info = $stmt->errorInfo();
             $error_message = "Error SQL: " . $error_info[2];
-            $debug_info[] = "Error al insertar: " . print_r($error_info, true);
         }
     } catch (PDOException $e) {
         $error_message = "Error en la base de datos: " . $e->getMessage();
-        $debug_info[] = "Excepción PDO: " . $e->getMessage();
     }
 }
 ?>
