@@ -4,7 +4,7 @@ session_start();
 
 // Check if user is already logged in
 if(isset($_SESSION['user_id'])) {
-    header("Location: pagIni.php");
+    header("Location: includes/pagIni.php");
     exit;
 }
 
@@ -42,14 +42,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Redirect based on role
                 if ($user['role'] === 'admin') {
-                    header("Location: user_management.php");
+                    header("Location: includes/user_management.php");
                     exit;
                 } elseif ($user['role'] === 'manager') {
-                    header("Location: pagIni.php");
+                    header("Location: includes/pagIni.php");
                     exit;
                 } else {
                     // For any other role, default to pagIni.php
-                    header("Location: pagIni.php");
+                    header("Location: includes/pagIni.php");
                     exit;
                 }
             } else {
