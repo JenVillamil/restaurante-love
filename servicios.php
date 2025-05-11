@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = $_POST['celular'];
     $email = $_POST['correo'];
     $menu_item = $_POST['menu'];
-    $table_number = $_POST['mesa'];
+    $table_number = $_POST['mesa'] ?: NULL;
     $service_type = $_POST['servicio'];
     
     try {
@@ -226,60 +226,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="mb-3">
             <label for="menu" class="form-label">Menú Seleccionado</label>
-            <select class="form-control" id="menu" name="menu" required>
-                <option value="">Seleccione un plato...</option>
-                <optgroup label="Entradas">
-                    <option value="Bruschettas de tomate y albahaca">Bruschettas de tomate y albahaca</option>
-                    <option value="Carpaccio de res con rúgula y parmesano">Carpaccio de res con rúgula y parmesano</option>
-                    <option value="Crema de champiñones con crujiente de pan">Crema de champiñones con crujiente de pan</option>
-                    <option value="Ceviche de camarones con leche de tigre">Ceviche de camarones con leche de tigre</option>
-                    <option value="Tabla de quesos y embutidos">Tabla de quesos y embutidos</option>
-                </optgroup>
-                <optgroup label="Platos Fuertes">
-                    <option value="Filete mignon en salsa de vino tinto">Filete mignon en salsa de vino tinto</option>
-                    <option value="Salmón grillado con hierbas">Salmón grillado con hierbas</option>
-                    <option value="Pollo al curry con arroz basmati">Pollo al curry con arroz basmati</option>
-                    <option value="Fettuccine Alfredo con camarones">Fettuccine Alfredo con camarones</option>
-                    <option value="Lasaña de berenjena y tofu">Lasaña de berenjena y tofu</option>
-                    <option value="Tacos de champiñones y guacamole">Tacos de champiñones y guacamole</option>
-                    <option value="Lasagna tradicional de carne">Lasagna tradicional de carne</option>
-                    <option value="Salmón grillado con costra de hierbas y arroz jazmín">Salmón grillado con costra de hierbas y arroz jazmín</option>
-                </optgroup>
-                <optgroup label="Postres">
-                    <option value="Tiramisú artesanal">Tiramisú artesanal</option>
-                    <option value="Crème brûlée">Crème brûlée</option>
-                    <option value="Brownie con helado de vainilla">Brownie con helado de vainilla</option>
-                    <option value="Panna cotta con frutos rojos">Panna cotta con frutos rojos</option>
-                    <option value="Helados artesanales de la casa">Helados artesanales de la casa</option>
-                </optgroup>
-                <optgroup label="Bebidas">
-                    <option value="Jugos naturales">Jugos naturales (mango, fresa, maracuyá, naranja)</option>
-                    <option value="Limonadas saborizadas">Limonadas saborizadas (coco, hierbabuena, jengibre)</option>
-                    <option value="Malteadas de frutas o chocolate">Malteadas de frutas o chocolate</option>
-                    <option value="Cócteles clásicos">Cócteles clásicos (Margarita, Mojito, Piña Colada)</option>
-                    <option value="Café colombiano de especialidad">Café colombiano de especialidad</option>
-                </optgroup>
-            </select>
-        </div>
-
+                <select class="form-control" id="menu" name="menu" required>
+                    <option value="">Seleccione un plato...</option>
+                    <optgroup label="Entradas">
+                        <option value="Bruschettas de tomate y albahaca">Bruschettas de tomate y albahaca</option>
+                        <option value="Carpaccio de res con rúgula y parmesano">Carpaccio de res con rúgula y parmesano</option>
+                        <option value="Crema de champiñones con crujiente de pan">Crema de champiñones con crujiente de pan</option>
+                        <option value="Ceviche de camarones con leche de tigre">Ceviche de camarones con leche de tigre</option>
+                        <option value="Tabla de quesos y embutidos">Tabla de quesos y embutidos</option>
+                    </optgroup>
+                    <optgroup label="Platos Fuertes">
+                        <option value="Filete mignon en salsa de vino tinto">Filete mignon en salsa de vino tinto</option>
+                        <option value="Salmón grillado con hierbas">Salmón grillado con hierbas</option>
+                        <option value="Pollo al curry con arroz basmati">Pollo al curry con arroz basmati</option>
+                        <option value="Fettuccine Alfredo con camarones">Fettuccine Alfredo con camarones</option>
+                        <option value="Lasaña de berenjena y tofu">Lasaña de berenjena y tofu</option>
+                        <option value="Tacos de champiñones y guacamole">Tacos de champiñones y guacamole</option>
+                        <option value="Lasagna tradicional de carne">Lasagna tradicional de carne</option>
+                        <option value="Salmón grillado con costra de hierbas y arroz jazmín">Salmón grillado con costra de hierbas y arroz jazmín</option>
+                    </optgroup>
+                    <optgroup label="Postres">
+                        <option value="Tiramisú artesanal">Tiramisú artesanal</option>
+                        <option value="Crème brûlée">Crème brûlée</option>
+                        <option value="Brownie con helado de vainilla">Brownie con helado de vainilla</option>
+                        <option value="Panna cotta con frutos rojos">Panna cotta con frutos rojos</option>
+                        <option value="Helados artesanales de la casa">Helados artesanales de la casa</option>
+                    </optgroup>
+                    <optgroup label="Bebidas">
+                        <option value="Jugos naturales">Jugos naturales (mango, fresa, maracuyá, naranja)</option>
+                        <option value="Limonadas saborizadas">Limonadas saborizadas (coco, hierbabuena, jengibre)</option>
+                        <option value="Malteadas de frutas o chocolate">Malteadas de frutas o chocolate</option>
+                        <option value="Cócteles clásicos">Cócteles clásicos (Margarita, Mojito, Piña Colada)</option>
+                        <option value="Café colombiano de especialidad">Café colombiano de especialidad</option>
+                    </optgroup>
+                </select>
+            </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="mesa" class="form-label">Número de Mesa</label>
-                    <input type="number" class="form-control" id="mesa" name="mesa" min="1" required>
+                    <input type="number" class="form-control" id="mesa" name="mesa" min="1">
+                    <small id="mesa-help" class="form-text text-muted d-none">No requerido para pedidos para llevar</small>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label d-block">Tipo de Servicio</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="servicio" id="en-restaurante" value="restaurante" required>
+                        <input class="form-check-input service-type" type="radio" name="servicio" id="en-restaurante" value="restaurante" checked required>
                         <label class="form-check-label" for="en-restaurante">En el restaurante</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="servicio" id="para-llevar" value="para-llevar">
+                        <input class="form-check-input service-type" type="radio" name="servicio" id="para-llevar" value="para-llevar">
                         <label class="form-check-label" for="para-llevar">Para llevar</label>
                     </div>
                 </div>
             </div>
-
             <div class="text-center">
                 <button type="submit" class="btn btn-primary px-5">Enviar Reserva</button>
             </div>
@@ -301,7 +300,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     </script>
 
-    <script src="js/script.js"></script>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">¡Reserva Exitosa!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fas fa-check-circle text-success" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                    <p>Tu reserva ha sido registrada correctamente.</p>
+                    <p>¡Esperamos verte pronto en Restaurante Love!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Referencias a elementos del DOM
+            const serviceTypeInputs = document.querySelectorAll('.service-type');
+            const tableInput = document.getElementById('mesa');
+            const tableHelp = document.getElementById('mesa-help');
+            const form = document.querySelector('form');
+            
+            // Función para manejar cambios en el tipo de servicio
+            function handleServiceTypeChange() {
+                if (document.getElementById('para-llevar').checked) {
+                    tableInput.required = false;
+                    tableHelp.classList.remove('d-none');
+                    tableInput.placeholder = "Opcional";
+                } else {
+                    tableInput.required = true;
+                    tableHelp.classList.add('d-none');
+                    tableInput.placeholder = "";
+                }
+            }
+            
+            // Agregar event listeners a los radio buttons
+            serviceTypeInputs.forEach(input => {
+                input.addEventListener('change', handleServiceTypeChange);
+            });
+            
+            // Configurar estado inicial
+            handleServiceTypeChange();
+            
+            <?php if (isset($success_message)): ?>
+            // Mostrar modal de éxito si hay un mensaje de éxito
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            <?php endif; ?>
+        });
+    </script>
 </body>
 
 </html>
