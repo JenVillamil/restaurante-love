@@ -108,9 +108,7 @@ body {
     color: #830a0a;
 }
 
-
 /* Encabezado principal */
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -151,16 +149,12 @@ body {
     gap: 15px;
 }
 
-
 /* Logo HERTECH */
-
 .header-logo img {
     height: 45px;
 }
 
-
 /* Estado del sistema y último acceso */
-
 .header-status {
     display: flex;
     flex-direction: column;
@@ -181,9 +175,7 @@ body {
     color: #1e5288;
 }
 
-
 /* Ícono de campana */
-
 .header-icon {
     font-size: 18px;
     color: #333;
@@ -258,9 +250,7 @@ footer {
     font-weight: bold;
 }
 
-
 /* Separador*/
-
 .section-separator {
     display: flex;
     align-items: center;
