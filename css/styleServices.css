@@ -1,0 +1,88 @@
+/************************ESTILOS SERVICES***************************/
+
+.service-card {
+    border: 1px solid #fef3f3;
+    border-radius: 10px;
+    background-color: #fef3f3;
+    color: #000000;
+    box-shadow: 0 4px 12px #fef3f3;
+    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 25px;
+    min-height: 380px;
+    text-align: center;
+    height: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.service-card img {
+    max-height: 150px;
+    margin-bottom: 20px;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.service-card h5,
+.service-card h6 {
+    font-size: 1.3rem;
+    color: #333;
+    /* O usa #3587c5 para un tono azul */
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.service-card p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #333;
+}
+
+
+/* Listas con corazones */
+
+.heart-list {
+    list-style: none;
+    /* Elimina el punto por defecto */
+    padding-left: 0;
+    /* Opcional: elimina sangría */
+}
+
+.heart-list li::before {
+    content: "♥";
+    color: red;
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+
+/* Footer general */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.footerServices {
+    background-color: #830a0a;
+    color: #fef3f3;
+    padding: 40px 0;
+    text-align: center;
+    font-size: 16px;
+}

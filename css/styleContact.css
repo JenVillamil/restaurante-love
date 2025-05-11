@@ -1,0 +1,126 @@
+/*****************CONTACT*****************/
+
+
+/* Contenedor principal */
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    padding: 60px 40px;
+}
+
+.contact-card {
+    background-color: #fef3f3;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    overflow: hidden;
+}
+
+
+/* Sección izquierda */
+
+.contact-info {
+    flex: 1;
+    padding: 40px;
+    border-right: 2px solid #eee;
+}
+
+.contact-info h3 {
+    color: #830a0a;
+    margin-bottom: 20px;
+}
+
+.contact-info h4 {
+    color: #000000;
+    ;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li {
+    margin-bottom: 12px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    color: #000000
+}
+
+.contact-info i {
+    color: #c0392b;
+    margin-right: 12px;
+}
+
+
+/* Sección derecha */
+
+.contact-form-wrapper {
+    flex: 1;
+    padding: 40px;
+}
+
+.contact-form-wrapper h3 {
+    text-align: center;
+    color: #830a0a;
+    margin-bottom: 30px;
+    font-size: larger;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #830a0a;
+    ;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn-send,
+.btn-back {
+    background-color: #1e5288;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* Footer */
+
+.footerServices {
+    background-color: #830a0a;
+    ;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+/* Responsivo */
