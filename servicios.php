@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = $_POST['celular'];
     $email = $_POST['correo'];
     $menu_item = $_POST['menu'];
-    $table_number = $_POST['mesa'] ?: NULL;
+    $table_number = (!empty($_POST['mesa'])) ? $_POST['mesa'] : NULL;
     $service_type = $_POST['servicio'];
     
     try {
@@ -332,6 +332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             function handleServiceTypeChange() {
                 if (document.getElementById('para-llevar').checked) {
                     tableInput.required = false;
+                    tableInput.value = ''; // Limpiar el campo cuando se selecciona "Para llevar"
                     tableHelp.classList.remove('d-none');
                     tableInput.placeholder = "Opcional";
                 } else {
