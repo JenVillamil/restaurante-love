@@ -1,43 +1,77 @@
 <?php
-// Start session
+// Depuración detallada
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
-// Check if form was submitted
+// Mensajes para debugging
+$debug_info = [];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Include database connection
     require_once 'includes/connection.php';
     
-    // Get form data
+    // Collect form data
     $document_type = $_POST['tipo-doc'];
     $document_number = $_POST['num-doc'];
     $full_name = $_POST['nombre'];
     $phone = $_POST['celular'];
     $email = $_POST['correo'];
     $menu_item = $_POST['menu'];
-    $table_number = (!empty($_POST['mesa'])) ? $_POST['mesa'] : NULL;
     $service_type = $_POST['servicio'];
     
+    // Lógica modificada para tabla
+    if ($service_type === 'para-llevar') {
+        // Para pedidos para llevar, usa explícitamente NULL
+        $table_number = null;
+        $debug_info[] = "Modo para llevar: table_number = NULL";
+    } else {
+        // Para restaurante, toma el valor ingresado
+        $table_number = !empty($_POST['mesa']) ? (int)$_POST['mesa'] : null;
+        $debug_info[] = "Modo restaurante: table_number = $table_number";
+    }
+    
     try {
-        // Insert reservation into database
-        $stmt = $conn->prepare("INSERT INTO reservations (document_type, document_number, full_name, phone, 
-                              email, menu_item, table_number, service_type) 
-                              VALUES (:document_type, :document_number, :full_name, :phone, 
-                              :email, :menu_item, :table_number, :service_type)");
+        // Preparar SQL
+        $sql = "INSERT INTO reservations 
+                (document_type, document_number, full_name, phone, email, menu_item, table_number, service_type) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
-        $stmt->bindParam(':document_type', $document_type);
-        $stmt->bindParam(':document_number', $document_number);
-        $stmt->bindParam(':full_name', $full_name);
-        $stmt->bindParam(':phone', $phone);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':menu_item', $menu_item);
-        $stmt->bindParam(':table_number', $table_number);
-        $stmt->bindParam(':service_type', $service_type);
+        $stmt = $conn->prepare($sql);
         
-        $stmt->execute();
+        // Bind con tipos explícitos
+        $stmt->bindParam(1, $document_type, PDO::PARAM_STR);
+        $stmt->bindParam(2, $document_number, PDO::PARAM_STR);
+        $stmt->bindParam(3, $full_name, PDO::PARAM_STR);
+        $stmt->bindParam(4, $phone, PDO::PARAM_STR);
+        $stmt->bindParam(5, $email, PDO::PARAM_STR);
+        $stmt->bindParam(6, $menu_item, PDO::PARAM_STR);
         
-        $success_message = "¡Reserva realizada con éxito!";
-    } catch(PDOException $e) {
-        $error_message = "Error al procesar la reserva: " . $e->getMessage();
+        // Para el campo table_number, usar PARAM_NULL si es null
+        if ($table_number === null) {
+            $stmt->bindValue(7, null, PDO::PARAM_NULL);
+            $debug_info[] = "Binding table_number como NULL";
+        } else {
+            $stmt->bindParam(7, $table_number, PDO::PARAM_INT);
+            $debug_info[] = "Binding table_number como INT: $table_number";
+        }
+        
+        $stmt->bindParam(8, $service_type, PDO::PARAM_STR);
+        
+        // Ejecutar y verificar resultado
+        $result = $stmt->execute();
+        
+        if ($result) {
+            $success_message = "¡Reserva realizada con éxito!";
+            $debug_info[] = "Reserva insertada correctamente";
+        } else {
+            $error_info = $stmt->errorInfo();
+            $error_message = "Error SQL: " . $error_info[2];
+            $debug_info[] = "Error al insertar: " . print_r($error_info, true);
+        }
+    } catch (PDOException $e) {
+        $error_message = "Error en la base de datos: " . $e->getMessage();
+        $debug_info[] = "Excepción PDO: " . $e->getMessage();
     }
 }
 ?>
@@ -262,19 +296,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-6" id="mesa-container">
                     <label for="mesa" class="form-label">Número de Mesa</label>
                     <input type="number" class="form-control" id="mesa" name="mesa" min="1">
-                    <small id="mesa-help" class="form-text text-muted d-none">No requerido para pedidos para llevar</small>
+                    <small class="form-text text-muted">Obligatorio para servicio en restaurante</small>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label d-block">Tipo de Servicio</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input service-type" type="radio" name="servicio" id="en-restaurante" value="restaurante" checked required>
+                        <input class="form-check-input" type="radio" name="servicio" id="en-restaurante" value="restaurante" checked required>
                         <label class="form-check-label" for="en-restaurante">En el restaurante</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input service-type" type="radio" name="servicio" id="para-llevar" value="para-llevar">
+                        <input class="form-check-input" type="radio" name="servicio" id="para-llevar" value="para-llevar">
                         <label class="form-check-label" for="para-llevar">Para llevar</label>
                     </div>
                 </div>
@@ -322,36 +356,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Referencias a elementos del DOM
-            const serviceTypeInputs = document.querySelectorAll('.service-type');
-            const tableInput = document.getElementById('mesa');
-            const tableHelp = document.getElementById('mesa-help');
-            const form = document.querySelector('form');
+            const restauranteRadio = document.getElementById('en-restaurante');
+            const paraLlevarRadio = document.getElementById('para-llevar');
+            const mesaInput = document.getElementById('mesa');
+            const mesaContainer = document.getElementById('mesa-container');
             
-            // Función para manejar cambios en el tipo de servicio
-            function handleServiceTypeChange() {
-                if (document.getElementById('para-llevar').checked) {
-                    tableInput.required = false;
-                    tableInput.value = ''; // Limpiar el campo cuando se selecciona "Para llevar"
-                    tableHelp.classList.remove('d-none');
-                    tableInput.placeholder = "Opcional";
+            function updateMesaField() {
+                if (paraLlevarRadio.checked) {
+                    // Para llevar: ocultar o deshabilitar el campo
+                    mesaInput.value = '';
+                    mesaInput.required = false;
+                    mesaContainer.style.opacity = "0.5";
                 } else {
-                    tableInput.required = true;
-                    tableHelp.classList.add('d-none');
-                    tableInput.placeholder = "";
+                    // En restaurante: mostrar y requerir el campo
+                    mesaInput.required = true;
+                    mesaContainer.style.opacity = "1";
                 }
             }
             
-            // Agregar event listeners a los radio buttons
-            serviceTypeInputs.forEach(input => {
-                input.addEventListener('change', handleServiceTypeChange);
-            });
+            // Asignar eventos
+            restauranteRadio.addEventListener('change', updateMesaField);
+            paraLlevarRadio.addEventListener('change', updateMesaField);
             
-            // Configurar estado inicial
-            handleServiceTypeChange();
+            // Establecer estado inicial
+            updateMesaField();
             
             <?php if (isset($success_message)): ?>
-            // Mostrar modal de éxito si hay un mensaje de éxito
+            // Mostrar modal
             var successModal = new bootstrap.Modal(document.getElementById('successModal'));
             successModal.show();
             <?php endif; ?>
