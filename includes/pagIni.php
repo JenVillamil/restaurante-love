@@ -2,6 +2,9 @@
 // Start session
 session_start();
 
+// Include database connection
+require_once 'connection.php';
+
 // Check if user is logged in
 if(!isset($_SESSION['user_id'])) {
     header(" loginAdmin.php");
@@ -12,6 +15,7 @@ if(!isset($_SESSION['user_id'])) {
 $user_name = $_SESSION['user_name'];
 $user_role = $_SESSION['user_role'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
