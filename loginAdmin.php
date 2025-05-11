@@ -39,10 +39,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['full_name'];
                 $_SESSION['user_role'] = $user['role'];
-                
-                // Redirect to dashboard
-                header("Location: pagIni.php");
-                exit;
+
+                // Redirect based on role
+                if ($user['role'] === 'admin') {
+                    header("Location: user_management.php");
+                    exit;
+                } elseif ($user['role'] === 'manager') {
+                    header("Location: pagIni.php");
+                    exit;
+                } else {
+                    // For any other role, default to pagIni.php
+                    header("Location: pagIni.php");
+                    exit;
+                }
             } else {
                 $error_message = "Correo o contraseña incorrectos";
             }
