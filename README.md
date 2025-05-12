@@ -42,8 +42,8 @@ Sistema web para la gestión de reservas y pedidos del **Restaurante Love**. Inc
    );
 
    -- Insert default admin user (password: 123, hashed) (https://onlinephp.io/password-hash)
-  INSERT INTO users (full_name, email, password, role) VALUES 
-  ('Admin', 'admin@love.com', '$2y$10$Ipfz3MPnMMMSZhawYcZbk.LhTByL5oXK1enTaG2zPzCxVk7PGALvi', 'admin');
+     INSERT INTO users (full_name, email, password, role) VALUES 
+     ('Admin', 'admin@love.com', '$2y$10$Ipfz3MPnMMMSZhawYcZbk.LhTByL5oXK1enTaG2zPzCxVk7PGALvi', 'admin');
 
    -- Tabla de reservas y pedidos
    CREATE TABLE reservations (
